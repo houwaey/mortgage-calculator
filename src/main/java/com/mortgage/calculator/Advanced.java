@@ -6,6 +6,10 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class Advanced {
+    public static final int MIN_YEARS = 1;
+    public static final int MAX_YEARS = 30;
+    public static final int MIN_INTEREST = 1;
+    public static final int MAX_INTEREST = 30;
 
     /*
     * Principal: 100000
@@ -14,15 +18,48 @@ public class Advanced {
     * Mortgage: US$472.81
     * */
 
-    // reduce the lines of code of this method (should be less than 20 lines)
     public static void main(String[] args) {
 
-        int principal = 0;
-        float annualInterest = 0;
-        int years = 0;
+        int principal;
+        float annualInterest;
+        int years;
 
         Scanner scanner = new Scanner(System.in);
 
+        principal = getPrincipal(scanner);
+        annualInterest = getAnnualInterest(scanner);
+        years = getYears(scanner);
+
+        String mortgage = formatMortgage(calculateMortgage(principal, annualInterest, years));
+        System.out.println("Mortgage: " + mortgage);
+    }
+
+    private static int getYears(Scanner scanner) {
+        int years;
+        while (true) {
+            System.out.print("Period (Years) [1 - 30]: ");
+            years = scanner.nextByte();
+            if (years >= MIN_YEARS && years <= MAX_YEARS)
+                break;
+            System.out.println("Enter a value between 1 and 30.");
+        }
+        return years;
+    }
+
+    private static float getAnnualInterest(Scanner scanner) {
+        float annualInterest;
+        while (true) {
+            System.out.print("Annual Interest Rate [1.00 - 30.00]: ");
+            annualInterest = scanner.nextFloat();
+            if (annualInterest >= MIN_INTEREST && annualInterest <= MAX_INTEREST)
+                break;
+            System.out.println("Enter a value between 1 and 30");
+        }
+        return annualInterest;
+    }
+
+    private static int getPrincipal(Scanner scanner) {
+        int principal;
         while (true) {
             System.out.print("Principal [$1k - $1M]: ");
             principal = scanner.nextInt();
@@ -30,27 +67,7 @@ public class Advanced {
                 break;
             System.out.println("Enter a value between 1,000 and 1,000,000");
         }
-
-        while (true) {
-            System.out.print("Annual Interest Rate: ");
-            annualInterest = scanner.nextFloat();
-            // magic numbers: Min Annual Interest=1, Max Annual Interest=30
-            if (annualInterest >= 1 && annualInterest <= 30)
-                break;
-            System.out.println("Enter a value between 1 and 30");
-        }
-
-        while (true) {
-            System.out.print("Period (Years) [1 - 30]: ");
-            years = scanner.nextByte();
-            // magic numbers: Min Year=1, Max Year=30
-            if (years >= 1 && years <= 30)
-                break;
-            System.out.println("Enter a value between 1 and 30.");
-        }
-
-        String mortgage = formatMortgage(calculateMortgage(principal, annualInterest, years));
-        System.out.println("Mortgage: " + mortgage);
+        return principal;
     }
 
     public static double calculateMortgage(int principal, float annualInterest, int years) {
