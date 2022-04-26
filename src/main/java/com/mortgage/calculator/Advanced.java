@@ -7,12 +7,19 @@ import java.util.Scanner;
 
 public class Advanced {
 
+    /*
+    * Principal: 100000
+    * Annual Interest Rate: 3.92
+    * Period (Years): 30
+    * Mortgage: US$472.81
+    * */
+
     // reduce the lines of code of this method (should be less than 20 lines)
     public static void main(String[] args) {
 
         int principal = 0;
-        float monthlyInterest = 0;
-        int numberOfPayments = 0;
+        float annualInterest = 0;
+        int years = 0;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -28,33 +35,24 @@ public class Advanced {
         // redundant while loop
         while (true) {
             System.out.print("Annual Interest Rate: ");
-            float annualInterest = scanner.nextFloat();
+            annualInterest = scanner.nextFloat();
             // magic numbers: Min Annual Interest=1, Max Annual Interest=30
-            if (annualInterest >= 1 && annualInterest <= 30) {
-                // magic numbers: Percent=100, Months in a Year=12
-                monthlyInterest = annualInterest / 100 / 12;
+            if (annualInterest >= 1 && annualInterest <= 30)
                 break;
-            }
             System.out.println("Enter a value between 1 and 30");
         }
 
         // redundant while loop
         while (true) {
             System.out.print("Period (Years) [1 - 30]: ");
-            int years = scanner.nextByte();
+            years = scanner.nextByte();
             // magic numbers: Min Year=1, Max Year=30
-            if (years >= 1 && years <= 30) {
-                // magic numbers: Months in a Year=12
-                numberOfPayments = years * 12;
+            if (years >= 1 && years <= 30)
                 break;
-            }
             System.out.println("Enter a value between 1 and 30.");
         }
 
-        // this formula can be extracted to another method
-        double mortgage = principal
-                * (monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments))
-                / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
+        double mortgage = calculateMortgage(principal, annualInterest, years);
 
         // this functionality can be extracted to another method
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
@@ -63,4 +61,16 @@ public class Advanced {
 
         System.out.println("Mortgage: " + mortgageFormatted);
     }
+
+    public static double calculateMortgage(int principal, float annualInterest, int years) {
+        float monthlyInterest = annualInterest / 100 / 12;
+        int numberOfPayments = years * 12;
+
+        double mortgage = principal
+                * (monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments))
+                / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
+
+        return mortgage;
+    }
+
 }
