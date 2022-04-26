@@ -74,11 +74,9 @@ public class Advanced {
         float monthlyInterest = annualInterest / 100 / 12;
         int numberOfPayments = years * 12;
 
-        double mortgage = principal
+        return principal
                 * (monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments))
                 / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
-
-        return mortgage;
     }
 
     private static String formatMortgage(double mortgage) {
