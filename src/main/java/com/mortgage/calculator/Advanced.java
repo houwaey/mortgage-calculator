@@ -23,7 +23,6 @@ public class Advanced {
 
         Scanner scanner = new Scanner(System.in);
 
-        // redundant while loop
         while (true) {
             System.out.print("Principal [$1k - $1M]: ");
             principal = scanner.nextInt();
@@ -32,7 +31,6 @@ public class Advanced {
             System.out.println("Enter a value between 1,000 and 1,000,000");
         }
 
-        // redundant while loop
         while (true) {
             System.out.print("Annual Interest Rate: ");
             annualInterest = scanner.nextFloat();
@@ -42,7 +40,6 @@ public class Advanced {
             System.out.println("Enter a value between 1 and 30");
         }
 
-        // redundant while loop
         while (true) {
             System.out.print("Period (Years) [1 - 30]: ");
             years = scanner.nextByte();
@@ -52,14 +49,8 @@ public class Advanced {
             System.out.println("Enter a value between 1 and 30.");
         }
 
-        double mortgage = calculateMortgage(principal, annualInterest, years);
-
-        // this functionality can be extracted to another method
-        NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
-        numberFormat.setCurrency(Currency.getInstance(Locale.US));
-        String mortgageFormatted = numberFormat.format(mortgage);
-
-        System.out.println("Mortgage: " + mortgageFormatted);
+        String mortgage = formatMortgage(calculateMortgage(principal, annualInterest, years));
+        System.out.println("Mortgage: " + mortgage);
     }
 
     public static double calculateMortgage(int principal, float annualInterest, int years) {
@@ -71,6 +62,12 @@ public class Advanced {
                 / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
 
         return mortgage;
+    }
+
+    private static String formatMortgage(double mortgage) {
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+        numberFormat.setCurrency(Currency.getInstance(Locale.US));
+        return numberFormat.format(mortgage);
     }
 
 }
